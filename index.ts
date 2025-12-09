@@ -1,6 +1,6 @@
 import express from "express";
 
-import dbConnectionStatus from "./utils/dbStatus.ts";
+import dbConnectionStatus from "./src/utils/dbStatus.ts";
 
 await dbConnectionStatus();
 
