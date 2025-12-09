@@ -8,7 +8,7 @@ export default async function dbConnectionStatus() {
     }
     try {
         const client = await dbClient.connect();
-        const db = client.db();
+        const db = client.db("portfolio");
         const result = await db.command({ ping: 1 });
         console.log("MongoDB connection successful:", result);
         return "Database connected";

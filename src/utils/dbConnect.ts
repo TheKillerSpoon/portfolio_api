@@ -7,7 +7,7 @@ if (!process.env.MONGODB_URI) {
 
 const uri = process.env.MONGODB_URI;
 const options: MongoClientOptions = {
-  appName: "devrel.template.vercel-better-auth",
+  appName: "testapi-blond-psi.vercel.app",
   maxIdleTimeMS: 5000,
 };
 

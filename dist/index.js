@@ -2,11 +2,13 @@ import express from "express";
 import cors from "cors";
 import dbConnectionStatus from "./utils/dbStatus.js";
 await dbConnectionStatus();
-import languageRoute from "./routes/language.route.js";
+//import languageRoute from "./routes/language.route.js";
+import testRoute from "./routes/test.route.js";
 const app = express();
 app.use(cors());
 app.use(express.json()); // for parsing application/json
-app.use(languageRoute);
+//app.use(languageRoute);
+app.use(testRoute);
 // Home route - HTML
 app.get("/", (req, res) => {
     res.type("html").send(`
