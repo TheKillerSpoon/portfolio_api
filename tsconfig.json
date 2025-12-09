@@ -6,6 +6,8 @@
     "outDir": "./dist",
     "rootDir": ".",
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "allowImportingTsExtensions": true,
+    "noEmit": true
   }
 }
