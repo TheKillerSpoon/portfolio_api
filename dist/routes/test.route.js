@@ -3,7 +3,25 @@ import express from "express";
 const testRoute = express.Router();
 const myDB = client.db("portfolio");
 const myColl = myDB.collection("test");
-// get all languages
+testRoute.get("/tests", async (req, res) => {
+    try {
+        const result = await myColl.find({});
+        return res.status(200).send({
+            status: "ok",
+            message: "Tests found!",
+            data: result,
+        });
+    }
+    catch (error) {
+        console.error("Server error", error);
+        return res.status(500).send({
+            status: "error",
+            message: "Server error",
+            error: error.message,
+        });
+    }
+});
+// create new test
 testRoute.post("/test", async (req, res) => {
     try {
         let body = req.body;
