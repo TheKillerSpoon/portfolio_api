@@ -6,7 +6,7 @@ const myDB = client.db("portfolio");
 const myColl = myDB.collection("test");
 testRoute.get("/tests", async (req, res) => {
     try {
-        const result = await myColl.find({});
+        const result = await myColl.find({}).toArray();
         return res.status(200).send({
             status: "ok",
             message: "Tests found!",
