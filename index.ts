@@ -1,8 +1,8 @@
 import express from "express";
 
-//import { dbConnectionStatus } from "./lib/dbStatus.ts";
+import { dbConnectionStatus } from "./lib/dbStatus.ts";
 
-//await dbConnectionStatus();
+await dbConnectionStatus();
 
 const app = express();
 
