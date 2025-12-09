@@ -1,10 +1,15 @@
 import express from "express";
+import cors from "cors";
 
 import dbConnectionStatus from "./utils/dbStatus.js";
 
 await dbConnectionStatus();
 
 const app = express();
+
+app.use(cors());
+
+app.use(express.json()); // for parsing application/json
 
 // Home route - HTML
 app.get("/", (req, res) => {
