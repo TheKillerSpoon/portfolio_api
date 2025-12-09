@@ -6,7 +6,7 @@ const testRoute = express.Router();
 interface schemaTest {
   number: number;
   string: string;
-  array: number[];
+  array?: number[];
 }
 
 await client.connect();
@@ -56,7 +56,7 @@ testRoute.post("/test", async (req, res) => {
   try {
     let body = req.body;
 
-    if (!body.name || !body.description) {
+    if (!body.number || !body.string) {
       return res.status(400).send({
         status: "error",
         message: `Name and description is required`,
