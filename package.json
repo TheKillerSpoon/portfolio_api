@@ -2,6 +2,10 @@
   "name": "express",
   "version": "1.0.0",
   "description": "",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
   "type": "module",
   "keywords": [
     "mongodb",
