@@ -1,6 +1,7 @@
 import { client } from "../utils/dbConnect.js";
 import express from "express";
 const testRoute = express.Router();
+await client.connect();
 const myDB = client.db("portfolio");
 const myColl = myDB.collection("test");
 testRoute.get("/tests", async (req, res) => {

@@ -9,6 +9,8 @@ interface schemaTest {
   array: number[];
 }
 
+await client.connect();
+
 const myDB = client.db("portfolio");
 
 const myColl = myDB.collection<schemaTest>("test");
