@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "type": "module",
-  "keywords": [],
+  "keywords": [
+    "mongodb",
+    "typescript",
+    "vercel"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
