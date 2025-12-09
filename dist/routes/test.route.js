@@ -20,6 +20,9 @@ testRoute.get("/tests", async (req, res) => {
             error: error.message,
         });
     }
+    finally {
+        await client.close();
+    }
 });
 // create new test
 testRoute.post("/test", async (req, res) => {
@@ -45,6 +48,9 @@ testRoute.post("/test", async (req, res) => {
             message: "Server error",
             error: error.message,
         });
+    }
+    finally {
+        await client.close();
     }
 });
 export default testRoute;

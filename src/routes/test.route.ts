@@ -3,8 +3,15 @@ import express from "express";
 
 const testRoute = express.Router();
 
+interface schemaTest {
+  number: number;
+  string: string;
+  array: number[];
+}
+
 const myDB = client.db("portfolio");
-const myColl = myDB.collection("test");
+
+const myColl = myDB.collection<schemaTest>("test");
 
 testRoute.get("/tests", async (req, res) => {
   try {
@@ -22,6 +29,8 @@ testRoute.get("/tests", async (req, res) => {
       message: "Server error",
       error: error.message,
     });
+  } finally {
+    await client.close();
   }
 });
 
@@ -51,6 +60,8 @@ testRoute.post("/test", async (req, res) => {
       message: "Server error",
       error: error.message,
     });
+  } finally {
+    await client.close();
   }
 });
 
