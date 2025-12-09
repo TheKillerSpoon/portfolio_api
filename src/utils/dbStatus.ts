@@ -1,4 +1,4 @@
-import { client as dbClient } from "./dbConnect";
+import { client as dbClient } from "./dbConnect.js";
 
 export default async function dbConnectionStatus() {
   if (!process.env.MONGODB_URI) {
