@@ -1,6 +1,6 @@
 import { client as dbClient } from "./dbConnect.ts";
 
-export async function dbConnectionStatus() {
+export default async function dbConnectionStatus() {
   if (!process.env.MONGODB_URI) {
     return "No MONGODB_URI environment variable";
   }
