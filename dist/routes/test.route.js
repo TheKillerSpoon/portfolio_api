@@ -3,6 +3,18 @@ import express from "express";
 const testRoute = express.Router();
 await client.connect();
 const myDB = client.db("portfolio");
+const collNames = myDB.listCollections({}, { nameOnly: true });
+var collExists = false;
+for await (const doc of collNames) {
+    console.log(doc);
+    if (doc.name === "test") {
+        collExists = true;
+    }
+}
+if (!collExists) {
+    await myDB.createCollection("test");
+    console.log("Collection 'test' created");
+}
 const myColl = myDB.collection("test");
 testRoute.get("/tests", async (req, res) => {
     try {
