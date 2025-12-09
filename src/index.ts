@@ -11,8 +11,6 @@ const app = express();
 
 app.use(cors());
 
-app.use(express.json()); // for parsing application/json
-
 //app.use(languageRoute);
 app.use(testRoute);
 

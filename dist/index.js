@@ -6,7 +6,6 @@ await dbConnectionStatus();
 import testRoute from "./routes/test.route.js";
 const app = express();
 app.use(cors());
-app.use(express.json()); // for parsing application/json
 //app.use(languageRoute);
 app.use(testRoute);
 // Home route - HTML
