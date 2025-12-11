@@ -1,20 +1,33 @@
-import { client as dbClient } from "./dbConnect.js";
+// import { client as dbClient } from "./dbConnect.js";
+// export default async function dbConnectionStatus() {
+//   if (!process.env.MONGODB_URI) {
+//     return "No MONGODB_URI environment variable";
+//   }
+//   if (!dbClient) {
+//     return "Database client not initialized";
+//   }
+//   try {
+//     const client = await dbClient.connect();
+//     const db = client.db("portfolio");
+//     const result = await db.command({ ping: 1 });
+//     console.log("MongoDB connection successful:", result);
+//     return "Database connected";
+//   } catch (error) {
+//     console.error("Error connecting to the database:", error);
+//     return "Database not connected";
+//   }
+// }
+import mongoose from "mongoose";
 export default async function dbConnectionStatus() {
     if (!process.env.MONGODB_URI) {
-        return "No MONGODB_URI environment variable";
+        throw new Error("Environment variable MONGODB_URI not found");
     }
-    if (!dbClient) {
-        return "Database client not initialized";
-    }
-    try {
-        const client = await dbClient.connect();
-        const db = client.db("portfolio");
-        const result = await db.command({ ping: 1 });
-        console.log("MongoDB connection successful:", result);
-        return "Database connected";
-    }
-    catch (error) {
-        console.error("Error connecting to the database:", error);
-        return "Database not connected";
-    }
+    mongoose.connect(process.env.MONGODB_URI);
+    console.log("Connecting to database...");
+    mongoose.connection.on("connected", () => {
+        console.log("Database connected");
+    });
+    mongoose.connection.on("error", (err) => {
+        console.error("Database connection error: ", err);
+    });
 }

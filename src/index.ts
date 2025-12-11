@@ -5,7 +5,7 @@ import dbConnectionStatus from "./utils/dbStatus.js";
 await dbConnectionStatus();
 
 //import languageRoute from "./routes/language.route.js";
-import testRoute from "./routes/test.route.js";
+//import testRoute from "./routes/test.route.js";
 
 const app = express();
 
@@ -14,7 +14,7 @@ app.use(cors());
 app.use(express.json()); // for parsing application/json
 
 //app.use(languageRoute);
-app.use(testRoute);
+//app.use(testRoute);
 
 // Home route - HTML
 app.get("/", (req, res) => {
