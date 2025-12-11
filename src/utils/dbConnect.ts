@@ -7,7 +7,7 @@ if (!process.env.MONGODB_URI) {
 
 const uri = process.env.MONGODB_URI;
 const options: MongoClientOptions = {
-  appName: "testapi-blond-psi.vercel.app",
+  appName: "TheKillerSpoon-DB",
   maxIdleTimeMS: 5000,
 };
 
