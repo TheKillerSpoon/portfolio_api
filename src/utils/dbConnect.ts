@@ -13,11 +13,8 @@ const options: MongoClientOptions = {
 
 export const client = new MongoClient(uri, options);
 
-// Attach the client to ensure proper cleanup on function suspension.
-// See https://vercel.com/blog/the-real-serverless-compute-to-database-connection-problem-solved
 attachDatabasePool(client);
 
-// Get the database instance for Better Auth
 export async function getDatabase(dbName?: string) {
   return client.db(dbName || process.env.MONGODB_DB || "better-auth");
 }
