@@ -11,7 +11,7 @@ if (collectionList["documents"] == null ||
     await myDB.createCollection("test");
     console.log("Collection 'test' created");
 }
-console.log("TEST:", collectionList["documents"]);
+console.log("TEST:", await collectionList["documents"]);
 // test
 var collExists = false;
 for await (const doc of collectionList) {
