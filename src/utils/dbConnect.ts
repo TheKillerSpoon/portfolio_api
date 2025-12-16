@@ -15,6 +15,23 @@ export const client = new MongoClient(uri, options);
 
 attachDatabasePool(client);
 
-export async function getDatabase(dbName?: string) {
-  return client.db(dbName || process.env.MONGODB_DB || "better-auth");
+export function getDatabase() {
+  return client.db("portfolio");
+}
+
+export async function collectionExists(collectionName: string) {
+  const db = client.db("portfolio");
+  const collectionList = db.listCollections({}, { nameOnly: true });
+
+  var collExists = false;
+
+  for await (const doc of collectionList) {
+    if (doc.name === collectionName) {
+      collExists = true;
+    }
+  }
+  if (!collExists) {
+    await db.createCollection(collectionName);
+    console.log(`Collection '${collectionName}' created`);
+  }
 }

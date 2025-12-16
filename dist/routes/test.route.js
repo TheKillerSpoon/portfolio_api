@@ -1,30 +1,8 @@
-import { client } from "../utils/dbConnect.js";
+import { client, getDatabase, collectionExists } from "../utils/dbConnect.js";
 import express from "express";
 const testRoute = express.Router();
-await client.connect();
-const myDB = client.db("portfolio");
-const collectionList = await myDB.listCollections({}, { nameOnly: true });
-// test
-console.log("Existing collections:", collectionList["documents"]);
-if (collectionList["documents"] == null ||
-    !collectionList["documents"].some((coll) => coll.name === "test")) {
-    await myDB.createCollection("test");
-    await myDB.createCollection("test2");
-    console.log("Collection 'test' created");
-}
-console.log("TEST:", await collectionList);
-// test
-var collExists = false;
-for await (const doc of collectionList) {
-    console.log("doc:", doc);
-    if (doc.name === "test") {
-        collExists = true;
-    }
-}
-if (!collExists) {
-    await myDB.createCollection("test");
-    console.log("Collection 'test' created");
-}
+const myDB = getDatabase();
+collectionExists("test");
 const myColl = myDB.collection("test");
 testRoute.get("/tests", async (req, res) => {
     try {
