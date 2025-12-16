@@ -5,7 +5,7 @@ if (!process.env.MONGODB_URI) {
 }
 const uri = process.env.MONGODB_URI;
 const options = {
-    appName: "testapi-blond-psi.vercel.app",
+    appName: "portfolio_api",
     maxIdleTimeMS: 5000,
 };
 export const client = new MongoClient(uri, options);

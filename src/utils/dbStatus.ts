@@ -8,13 +8,9 @@ export default async function dbConnectionStatus() {
     return "Database client not initialized";
   }
   try {
-    console.log("connection...1");
     const client = await dbClient.connect();
-    console.log("connection...2");
     const db = client.db("portfolio");
-    console.log("connection...3");
     const result = await db.command({ ping: 1 });
-    console.log("connection...4");
     console.log("MongoDB connection successful:", result);
     return "Database connected";
   } catch (error) {

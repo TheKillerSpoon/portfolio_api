@@ -13,11 +13,13 @@ await client.connect();
 
 const myDB = client.db("portfolio");
 
-const collNames = myDB.listCollections({}, { nameOnly: true });
+const collectionNames = myDB.listCollections({}, { nameOnly: true });
+
+console.log("Existing collections:", collectionNames);
 
 var collExists = false;
 
-for await (const doc of collNames) {
+for await (const doc of collectionNames) {
   console.log(doc);
   if (doc.name === "test") {
     collExists = true;
