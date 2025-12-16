@@ -3,7 +3,7 @@ import express from "express";
 const testRoute = express.Router();
 await client.connect();
 const myDB = client.db("portfolio");
-const collectionList = myDB.listCollections({}, { nameOnly: true });
+const collectionList = await myDB.listCollections({}, { nameOnly: true });
 // test
 console.log("Existing collections:", collectionList["documents"]);
 if (collectionList["documents"] == null ||

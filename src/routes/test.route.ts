@@ -13,7 +13,7 @@ await client.connect();
 
 const myDB = client.db("portfolio");
 
-const collectionList = myDB.listCollections({}, { nameOnly: true });
+const collectionList = await myDB.listCollections({}, { nameOnly: true });
 
 // test
 
