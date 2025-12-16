@@ -15,7 +15,7 @@ if (collectionNames == null ||
 // test
 var collExists = false;
 for await (const doc of collectionList) {
-    console.log(doc);
+    console.log("doc:", doc);
     if (doc.name === "test") {
         collExists = true;
     }
