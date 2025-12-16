@@ -27,7 +27,7 @@ if (
   console.log("Collection 'test' created");
 }
 
-console.log("TEST:", collectionList);
+console.log("TEST:", collectionList["documents"]);
 
 // test
 
