@@ -17,16 +17,17 @@ const collectionList = myDB.listCollections({}, { nameOnly: true });
 
 // test
 
-const collectionNames = collectionList["documents"];
+console.log("Existing collections:", collectionList["documents"]);
 
-console.log("Existing collections:", collectionNames);
 if (
-  collectionNames == null ||
-  !collectionNames.some((coll) => coll.name === "test")
+  collectionList["documents"] == null ||
+  !collectionList["documents"].some((coll) => coll.name === "test")
 ) {
   await myDB.createCollection("test");
   console.log("Collection 'test' created");
 }
+
+console.log("Existing collections:", collectionList["documents"]);
 
 // test
 

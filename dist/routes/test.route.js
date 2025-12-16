@@ -5,13 +5,13 @@ await client.connect();
 const myDB = client.db("portfolio");
 const collectionList = myDB.listCollections({}, { nameOnly: true });
 // test
-const collectionNames = collectionList["documents"];
-console.log("Existing collections:", collectionNames);
-if (collectionNames == null ||
-    !collectionNames.some((coll) => coll.name === "test")) {
+console.log("Existing collections:", collectionList["documents"]);
+if (collectionList["documents"] == null ||
+    !collectionList["documents"].some((coll) => coll.name === "test")) {
     await myDB.createCollection("test");
     console.log("Collection 'test' created");
 }
+console.log("Existing collections:", collectionList["documents"]);
 // test
 var collExists = false;
 for await (const doc of collectionList) {
