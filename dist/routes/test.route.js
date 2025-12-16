@@ -4,7 +4,8 @@ const testRoute = express.Router();
 await client.connect();
 const myDB = client.db("portfolio");
 const collectionNames = myDB.listCollections({}, { nameOnly: true });
-console.log("Existing collections:", collectionNames);
+console.log("Existing collections:", collectionNames["documents"]);
+collectionNames["documents"].some((doc) => console.log(doc.name));
 var collExists = false;
 for await (const doc of collectionNames) {
     console.log(doc);

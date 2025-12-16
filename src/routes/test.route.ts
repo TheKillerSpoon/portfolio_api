@@ -15,7 +15,9 @@ const myDB = client.db("portfolio");
 
 const collectionNames = myDB.listCollections({}, { nameOnly: true });
 
-console.log("Existing collections:", collectionNames);
+console.log("Existing collections:", collectionNames["documents"]);
+
+collectionNames["documents"].some((doc: any) => console.log(doc.name));
 
 var collExists = false;
 
