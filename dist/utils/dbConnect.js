@@ -14,9 +14,15 @@ export function getDatabase() {
     return client.db("portfolio");
 }
 export async function collectionExists(collectionName) {
-    const db = client.db("portfolio");
+    const db = getDatabase();
     const collectionList = db.listCollections({}, { nameOnly: true });
     var collExists = false;
+    collectionList.map((doc) => {
+        console.log(doc);
+        // if (doc.name === collectionName) {
+        //   collExists = true;
+        // }
+    });
     for await (const doc of collectionList) {
         if (doc.name === collectionName) {
             collExists = true;
