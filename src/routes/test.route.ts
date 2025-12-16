@@ -20,11 +20,13 @@ const collectionList = myDB.listCollections({}, { nameOnly: true });
 const collectionNames = collectionList["documents"];
 
 console.log("Existing collections:", collectionNames);
-
-console.log(
-  "Does the collection exist:",
-  collectionNames.some((coll) => coll.name === "test")
-);
+if (
+  collectionNames == null ||
+  !collectionNames.some((coll) => coll.name === "test")
+) {
+  await myDB.createCollection("test");
+  console.log("Collection 'test' created");
+}
 
 // test
 
