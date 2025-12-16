@@ -24,6 +24,7 @@ if (
   !collectionList["documents"].some((coll) => coll.name === "test")
 ) {
   await myDB.createCollection("test");
+  await myDB.createCollection("test2");
   console.log("Collection 'test' created");
 }
 
