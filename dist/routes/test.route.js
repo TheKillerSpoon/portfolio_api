@@ -70,7 +70,7 @@ testRoute.post("/test", async (req, res) => {
 testRoute.delete("/test/:id", async (req, res) => {
     try {
         const id = req.params.id;
-        const manyIds = req.query.ids;
+        const manyIds = req.body.ids;
         if ((!id && !manyIds) || (id && manyIds)) {
             return res.status(400).send({
                 status: "error",
@@ -84,7 +84,7 @@ testRoute.delete("/test/:id", async (req, res) => {
         }
         if (manyIds) {
             var deletedTest = await Collection.deleteMany({
-                _id: new ObjectId(manyIds),
+                _id: manyIds.map((id) => new ObjectId(id)),
             });
         }
         if (!deletedTest) {
