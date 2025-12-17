@@ -1,5 +1,6 @@
-import { client, getDatabase, collectionExists } from "../utils/dbConnect.js";
+import { getDatabase, collectionExists } from "../utils/dbConnect.js";
 import express from "express";
+import { ObjectId } from "mongodb";
 
 const testRoute = express.Router();
 
@@ -67,12 +68,49 @@ testRoute.post("/test", async (req, res) => {
       });
     }
 
-    const result = await Collection.insertMany(body);
+    const result = await Collection.insertOne(body);
 
     return res.status(200).send({
       status: "ok",
       message: "Test created successfully!",
       data: result,
+    });
+  } catch (error: any) {
+    console.error("Server error", error);
+    return res.status(500).send({
+      status: "error",
+      message: "Server error",
+      error: error.message,
+    });
+  }
+});
+
+// delete a test by id
+testRoute.delete("/test/:id", async (req, res) => {
+  try {
+    const id = req.query.id;
+
+    if (!id) {
+      return res.status(400).send({
+        status: "error",
+        message: "ID is required",
+      });
+    }
+
+    const deletedTest = await Collection.deleteOne({
+      _id: new ObjectId(id as string),
+    });
+
+    if (!deletedTest) {
+      return res.status(404).send({
+        status: "error",
+        message: "Test not found",
+      });
+    }
+
+    return res.status(200).send({
+      status: "ok",
+      message: "Test deleted successfully!",
     });
   } catch (error: any) {
     console.error("Server error", error);
