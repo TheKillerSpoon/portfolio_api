@@ -31,8 +31,6 @@ testRoute.get("/tests", async (req, res) => {
       message: "Server error",
       error: error.message,
     });
-  } finally {
-    await client.close();
   }
 });
 
@@ -64,8 +62,6 @@ testRoute.post("/test", async (req, res) => {
       message: "Server error",
       error: error.message,
     });
-  } finally {
-    await client.close();
   }
 });
 

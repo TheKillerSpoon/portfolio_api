@@ -1,4 +1,4 @@
-import { client, getDatabase, collectionExists } from "../utils/dbConnect.js";
+import { getDatabase, collectionExists } from "../utils/dbConnect.js";
 import express from "express";
 const testRoute = express.Router();
 const myDB = getDatabase();
@@ -20,9 +20,6 @@ testRoute.get("/tests", async (req, res) => {
             message: "Server error",
             error: error.message,
         });
-    }
-    finally {
-        await client.close();
     }
 });
 // create new test
@@ -50,9 +47,6 @@ testRoute.post("/test", async (req, res) => {
             message: "Server error",
             error: error.message,
         });
-    }
-    finally {
-        await client.close();
     }
 });
 export default testRoute;
