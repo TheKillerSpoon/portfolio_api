@@ -70,7 +70,7 @@ testRoute.post("/test", async (req, res) => {
   }
 });
 
-// update one or more test by id
+// update test by id
 testRoute.patch("/test/:id", async (req, res) => {
   try {
     const id = req.params.id;
@@ -85,7 +85,7 @@ testRoute.patch("/test/:id", async (req, res) => {
 
     const updatedTest = await Collection.updateOne(
       { _id: new ObjectId(id as string) },
-      body
+      { $set: { body } }
     );
 
     return res.status(200).send({
