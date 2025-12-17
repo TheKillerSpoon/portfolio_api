@@ -9,15 +9,15 @@ interface schemaTest {
   array?: number[];
 }
 
-const myDB = getDatabase();
+const database = getDatabase();
 
 collectionExists("test");
 
-const myColl = myDB.collection<schemaTest>("test");
+const Collection = database.collection<schemaTest>("test");
 
 testRoute.get("/tests", async (req, res) => {
   try {
-    const result = await myColl.find({}).toArray();
+    const result = await Collection.find({}).toArray();
 
     return res.status(200).send({
       status: "ok",
@@ -41,6 +41,25 @@ testRoute.post("/test", async (req, res) => {
 
     console.log("Request body:", body);
 
+    if (Array.isArray(body)) {
+      body.map((item) => {
+        if (!item.number || !item.string) {
+          return res.status(400).send({
+            status: "error",
+            message: `Name and description is required on all items`,
+          });
+        }
+      });
+
+      const result = await Collection.insertMany(body);
+
+      return res.status(200).send({
+        status: "ok",
+        message: "Tests created successfully!",
+        data: result,
+      });
+    }
+
     if (!body.number || !body.string) {
       return res.status(400).send({
         status: "error",
@@ -48,7 +67,7 @@ testRoute.post("/test", async (req, res) => {
       });
     }
 
-    const result = await myColl.insertOne(body);
+    const result = await Collection.insertOne(body);
 
     return res.status(200).send({
       status: "ok",
