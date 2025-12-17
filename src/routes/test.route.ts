@@ -35,6 +35,36 @@ testRoute.get("/tests", async (req, res) => {
   }
 });
 
+testRoute.get("/test/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    if (!id) {
+      return res.status(400).send({
+        status: "error",
+        message: "ID is required",
+      });
+    }
+
+    const result = await Collection.findOne({
+      _id: new ObjectId(id as string),
+    });
+
+    return res.status(200).send({
+      status: "ok",
+      message: "Test found!",
+      data: result,
+    });
+  } catch (error: any) {
+    console.error("Server error", error);
+    return res.status(500).send({
+      status: "error",
+      message: "Server error",
+      error: error.message,
+    });
+  }
+});
+
 // create new test
 testRoute.post("/test", async (req, res) => {
   try {
