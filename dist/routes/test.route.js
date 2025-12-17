@@ -54,6 +54,33 @@ testRoute.post("/test", async (req, res) => {
         });
     }
 });
+// update one or more test by id
+testRoute.patch("/test/:id", async (req, res) => {
+    try {
+        const id = req.params.id;
+        const body = req.body;
+        if (!id) {
+            return res.status(400).send({
+                status: "error",
+                message: "ID is required",
+            });
+        }
+        const updatedTest = await Collection.updateOne({ _id: new ObjectId(id) }, body);
+        return res.status(200).send({
+            status: "ok",
+            message: "Test updated successfully!",
+            data: updatedTest,
+        });
+    }
+    catch (error) {
+        console.error("Server error", error);
+        return res.status(500).send({
+            status: "error",
+            message: "Server error",
+            error: error.message,
+        });
+    }
+});
 // delete one or many test by id
 testRoute.delete("/test", async (req, res) => {
     try {
