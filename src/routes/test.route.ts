@@ -89,18 +89,25 @@ testRoute.post("/test", async (req, res) => {
 testRoute.delete("/test/:id", async (req, res) => {
   try {
     const id = req.params.id;
-    //const id = req.query.id;
+    const manyIds = req.query.ids;
 
-    if (!id) {
+    if ((!id && !manyIds) || (id && manyIds)) {
       return res.status(400).send({
         status: "error",
-        message: "ID is required",
+        message: "One type of id is required",
       });
     }
 
-    const deletedTest = await Collection.deleteOne({
-      _id: new ObjectId(id as string),
-    });
+    if (id) {
+      var deletedTest = await Collection.deleteOne({
+        _id: new ObjectId(id as string),
+      });
+    }
+    if (manyIds) {
+      var deletedTest = await Collection.deleteMany({
+        _id: new ObjectId(manyIds as string),
+      });
+    }
 
     if (!deletedTest) {
       return res.status(404).send({
