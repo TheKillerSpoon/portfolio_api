@@ -65,7 +65,7 @@ testRoute.patch("/test/:id", async (req, res) => {
                 message: "ID is required",
             });
         }
-        const updatedTest = await Collection.updateOne({ _id: new ObjectId(id) }, { $set: { body } });
+        const updatedTest = await Collection.updateOne({ _id: new ObjectId(id) }, { $set: body });
         return res.status(200).send({
             status: "ok",
             message: "Test updated successfully!",

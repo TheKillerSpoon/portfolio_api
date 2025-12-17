@@ -85,7 +85,7 @@ testRoute.patch("/test/:id", async (req, res) => {
 
     const updatedTest = await Collection.updateOne(
       { _id: new ObjectId(id as string) },
-      { $set: { body } }
+      { $set: body }
     );
 
     return res.status(200).send({
