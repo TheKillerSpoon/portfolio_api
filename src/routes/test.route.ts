@@ -88,7 +88,8 @@ testRoute.post("/test", async (req, res) => {
 // delete a test by id
 testRoute.delete("/test/:id", async (req, res) => {
   try {
-    const id = req.query.id;
+    const id = req.params.id;
+    //const id = req.query.id;
 
     if (!id) {
       return res.status(400).send({
