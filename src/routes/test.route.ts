@@ -91,6 +91,8 @@ testRoute.delete("/test/:id", async (req, res) => {
     const id = req.params.id;
     const manyIds = req.body.ids;
 
+    console.log("Deleting test(s) with id(s):", id || manyIds);
+
     if ((!id && !manyIds) || (id && manyIds)) {
       return res.status(400).send({
         status: "error",
@@ -104,7 +106,6 @@ testRoute.delete("/test/:id", async (req, res) => {
       });
     }
     if (manyIds) {
-      console.log("Deleting many IDs:", manyIds);
       var deletedTest = await Collection.deleteMany({
         _id: { $in: manyIds.map((id) => new ObjectId(id as string)) },
       });
