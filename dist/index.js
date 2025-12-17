@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 //import dbConnectionStatus from "./utils/dbStatus.js";
 //await dbConnectionStatus();
-import { dbConnect } from "./utils/db";
+import { dbConnect } from "./utils/db.js";
 await dbConnect();
 //import languageRoute from "./routes/language.route.js";
 //import testRoute from "./routes/test.route.js";
