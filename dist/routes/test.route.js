@@ -29,6 +29,7 @@ testRoute.get("/tests", async (req, res) => {
 testRoute.post("/test", async (req, res) => {
     try {
         let body = req.body;
+        console.log("Request body:", body);
         if (!body.number || !body.string) {
             return res.status(400).send({
                 status: "error",
