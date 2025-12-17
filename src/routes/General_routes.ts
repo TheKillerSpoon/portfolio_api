@@ -1,26 +1,13 @@
-import { getDatabase, collectionExists } from "../utils/dbConnect.js";
 import { ObjectId } from "mongodb";
 
-export const generalMethods = (collectionName?: string) => {
-  interface schemaTest {
-    number: number;
-    string: string;
-    array?: number[];
-  }
-
-  const database = getDatabase();
-
-  collectionExists("test");
-
-  const Collection = database.collection<schemaTest>("test");
-
+export const generalMethods = (Collection) => {
   const getAll = async (req, res) => {
     try {
       const result = await Collection.find({}).toArray();
 
       return res.status(200).send({
         status: "ok",
-        message: "Tests found!",
+        message: `found!`,
         data: result,
       });
     } catch (error: any) {
@@ -50,7 +37,7 @@ export const generalMethods = (collectionName?: string) => {
 
       return res.status(200).send({
         status: "ok",
-        message: "Test found!",
+        message: `found!`,
         data: result,
       });
     } catch (error: any) {
@@ -83,7 +70,7 @@ export const generalMethods = (collectionName?: string) => {
 
       return res.status(200).send({
         status: "ok",
-        message: "Test created successfully!",
+        message: `created successfully!`,
         data: result,
       });
     } catch (error: any) {
@@ -114,7 +101,7 @@ export const generalMethods = (collectionName?: string) => {
 
       return res.status(200).send({
         status: "ok",
-        message: "Test updated successfully!",
+        message: `updated successfully!`,
         data: updatedTest,
       });
     } catch (error: any) {
@@ -144,13 +131,13 @@ export const generalMethods = (collectionName?: string) => {
       if (!deletedTest) {
         return res.status(404).send({
           status: "error",
-          message: "Test not found",
+          message: `not found`,
         });
       }
 
       return res.status(200).send({
         status: "ok",
-        message: "Test deleted successfully!",
+        message: `deleted successfully!`,
       });
     } catch (error: any) {
       console.error("Server error", error);

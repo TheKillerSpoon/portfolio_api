@@ -1,7 +1,20 @@
 import express from "express";
 import { generalMethods } from "./General_routes.js";
+import { getDatabase, collectionExists } from "../utils/dbConnect.js";
 
-const { getAll, getById, create, updateById, deleteById } = generalMethods();
+interface schemaTest {
+  number: number;
+  string: string;
+  test: string;
+  array?: number[];
+}
+
+const database = getDatabase();
+collectionExists("test");
+const Collection = database.collection<schemaTest>("test");
+
+const { getAll, getById, create, updateById, deleteById } =
+  generalMethods(Collection);
 
 const testRoute = express.Router();
 

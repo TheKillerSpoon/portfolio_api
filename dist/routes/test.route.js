@@ -1,6 +1,10 @@
 import express from "express";
 import { generalMethods } from "./General_routes.js";
-const { getAll, getById, create, updateById, deleteById } = generalMethods();
+import { getDatabase, collectionExists } from "../utils/dbConnect.js";
+const database = getDatabase();
+collectionExists("test");
+const Collection = database.collection("test");
+const { getAll, getById, create, updateById, deleteById } = generalMethods(Collection);
 const testRoute = express.Router();
 testRoute.get("/tests", async (req, res) => {
     await getAll(req, res);

@@ -1,15 +1,11 @@
-import { getDatabase, collectionExists } from "../utils/dbConnect.js";
 import { ObjectId } from "mongodb";
-export const generalMethods = (collectionName) => {
-    const database = getDatabase();
-    collectionExists("test");
-    const Collection = database.collection("test");
+export const generalMethods = (Collection) => {
     const getAll = async (req, res) => {
         try {
             const result = await Collection.find({}).toArray();
             return res.status(200).send({
                 status: "ok",
-                message: "Tests found!",
+                message: `found!`,
                 data: result,
             });
         }
@@ -36,7 +32,7 @@ export const generalMethods = (collectionName) => {
             });
             return res.status(200).send({
                 status: "ok",
-                message: "Test found!",
+                message: `found!`,
                 data: result,
             });
         }
@@ -66,7 +62,7 @@ export const generalMethods = (collectionName) => {
             const result = await Collection.insertMany(body);
             return res.status(200).send({
                 status: "ok",
-                message: "Test created successfully!",
+                message: `created successfully!`,
                 data: result,
             });
         }
@@ -92,7 +88,7 @@ export const generalMethods = (collectionName) => {
             const updatedTest = await Collection.updateOne({ _id: new ObjectId(id) }, { $set: body });
             return res.status(200).send({
                 status: "ok",
-                message: "Test updated successfully!",
+                message: `updated successfully!`,
                 data: updatedTest,
             });
         }
@@ -120,12 +116,12 @@ export const generalMethods = (collectionName) => {
             if (!deletedTest) {
                 return res.status(404).send({
                     status: "error",
-                    message: "Test not found",
+                    message: `not found`,
                 });
             }
             return res.status(200).send({
                 status: "ok",
-                message: "Test deleted successfully!",
+                message: `deleted successfully!`,
             });
         }
         catch (error) {
