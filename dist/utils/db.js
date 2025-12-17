@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 export const dbConnect = async () => {
     if (!process.env.MONGODB_URI) {
         throw new Error("Environment variable MONGODB_URI not found");
