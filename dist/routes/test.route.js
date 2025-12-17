@@ -83,6 +83,7 @@ testRoute.delete("/test/:id", async (req, res) => {
             });
         }
         if (manyIds) {
+            console.log("Deleting many IDs:", manyIds);
             var deletedTest = await Collection.deleteMany({
                 _id: { $in: manyIds.map((id) => new ObjectId(id)) },
             });
