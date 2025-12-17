@@ -89,27 +89,57 @@ testRoute.post("/test", async (req, res) => {
 testRoute.delete("/test/:id", async (req, res) => {
   try {
     const id = req.params.id;
-    const manyIds = req.body.ids;
 
-    console.log("Deleting test(s) with id(s):", id || manyIds);
+    console.log("Deleting test(s) with id(s):", id);
 
-    if ((!id && !manyIds) || (id && manyIds)) {
+    if (!id) {
       return res.status(400).send({
         status: "error",
         message: "One type of id is required",
       });
     }
 
-    if (id) {
-      var deletedTest = await Collection.deleteOne({
-        _id: new ObjectId(id as string),
+    var deletedTest = await Collection.deleteOne({
+      _id: new ObjectId(id as string),
+    });
+
+    if (!deletedTest) {
+      return res.status(404).send({
+        status: "error",
+        message: "Test not found",
       });
     }
-    if (manyIds) {
-      var deletedTest = await Collection.deleteMany({
-        _id: { $in: manyIds.map((id) => new ObjectId(id as string)) },
+
+    return res.status(200).send({
+      status: "ok",
+      message: "Test deleted successfully!",
+    });
+  } catch (error: any) {
+    console.error("Server error", error);
+    return res.status(500).send({
+      status: "error",
+      message: "Server error",
+      error: error.message,
+    });
+  }
+});
+
+testRoute.delete("/test", async (req, res) => {
+  try {
+    const manyIds = req.body.ids;
+
+    console.log("Deleting test(s) with id(s):", manyIds);
+
+    if (!manyIds) {
+      return res.status(400).send({
+        status: "error",
+        message: "One type of id is required",
       });
     }
+
+    const deletedTest = await Collection.deleteMany({
+      _id: { $in: manyIds.map((id) => new ObjectId(id as string)) },
+    });
 
     if (!deletedTest) {
       return res.status(404).send({
