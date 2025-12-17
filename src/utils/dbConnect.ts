@@ -25,13 +25,6 @@ export async function collectionExists(collectionName: string) {
 
   var collExists = false;
 
-  collectionList.map((doc) => {
-    console.log(doc);
-    // if (doc.name === collectionName) {
-    //   collExists = true;
-    // }
-  });
-
   for await (const doc of collectionList) {
     if (doc.name === collectionName) {
       collExists = true;
