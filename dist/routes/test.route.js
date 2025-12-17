@@ -49,7 +49,7 @@ testRoute.post("/test", async (req, res) => {
                 message: `Name and description is required`,
             });
         }
-        const result = await Collection.insertOne(body);
+        const result = await Collection.insertMany(body);
         return res.status(200).send({
             status: "ok",
             message: "Test created successfully!",

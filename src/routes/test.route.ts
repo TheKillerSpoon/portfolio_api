@@ -67,7 +67,7 @@ testRoute.post("/test", async (req, res) => {
       });
     }
 
-    const result = await Collection.insertOne(body);
+    const result = await Collection.insertMany(body);
 
     return res.status(200).send({
       status: "ok",
