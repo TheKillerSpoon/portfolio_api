@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb";
 
-export const generalMethods = (Collection) => {
+export const generalMethods = (Collection, schema) => {
   const getAll = async (req, res) => {
     try {
       const FoundAll = await Collection.find({}).toArray();
@@ -49,7 +49,7 @@ export const generalMethods = (Collection) => {
       });
     }
   };
-  const create = async (req, res, schema) => {
+  const create = async (req, res) => {
     try {
       let body = req.body;
 
@@ -58,7 +58,12 @@ export const generalMethods = (Collection) => {
       }
 
       for (const item of body) {
-        const result = schema.safeParse(item);
+        const result = schema
+          .strict()
+          .refine((obj) => Object.keys(obj).length > 0, {
+            message: "At least one field must be provided",
+          })
+          .safeParse(item);
 
         if (!result.success) {
           return res.status(400).send({
@@ -85,7 +90,7 @@ export const generalMethods = (Collection) => {
       });
     }
   };
-  const updateById = async (req, res, schema) => {
+  const updateById = async (req, res) => {
     try {
       const id = req.params.id;
       const body = req.body;
@@ -97,7 +102,13 @@ export const generalMethods = (Collection) => {
         });
       }
 
-      const result = schema.partial().safeParse(body);
+      const result = schema
+        .partial()
+        .strict()
+        .refine((obj) => Object.keys(obj).length > 0, {
+          message: "At least one field must be provided",
+        })
+        .safeParse(body);
 
       if (!result.success) {
         return res.status(400).send({
