@@ -3,12 +3,12 @@ import { ObjectId } from "mongodb";
 export const generalMethods = (Collection) => {
   const getAll = async (req, res) => {
     try {
-      const result = await Collection.find({}).toArray();
+      const FoundAll = await Collection.find({}).toArray();
 
       return res.status(200).send({
         status: "ok",
-        message: `found!`,
-        data: result,
+        message: `Found all!`,
+        data: FoundAll,
       });
     } catch (error: any) {
       console.error("Server error", error);
@@ -31,14 +31,14 @@ export const generalMethods = (Collection) => {
         });
       }
 
-      const result = await Collection.findOne({
+      const found = await Collection.findOne({
         _id: new ObjectId(id as string),
       });
 
       return res.status(200).send({
         status: "ok",
-        message: `found!`,
-        data: result,
+        message: `Found!`,
+        data: found,
       });
     } catch (error: any) {
       console.error("Server error", error);
@@ -49,7 +49,7 @@ export const generalMethods = (Collection) => {
       });
     }
   };
-  const create = async (req, res) => {
+  const create = async (req, res, schema) => {
     try {
       let body = req.body;
 
@@ -58,20 +58,21 @@ export const generalMethods = (Collection) => {
       }
 
       body.map((item) => {
-        if (!item.number || !item.string) {
+        if (!schema.safeParse(item).success) {
           return res.status(400).send({
             status: "error",
-            message: `Name and description is required on all items`,
+            message: "Invalid request",
+            error: schema.safeParse(item).error.issues,
           });
         }
       });
 
-      const result = await Collection.insertMany(body);
+      const created = await Collection.insertMany(body);
 
       return res.status(200).send({
         status: "ok",
-        message: `created successfully!`,
-        data: result,
+        message: `Created successfully!`,
+        data: created,
       });
     } catch (error: any) {
       console.error("Server error", error);
@@ -82,7 +83,7 @@ export const generalMethods = (Collection) => {
       });
     }
   };
-  const updateById = async (req, res) => {
+  const updateById = async (req, res, schema) => {
     try {
       const id = req.params.id;
       const body = req.body;
@@ -94,15 +95,23 @@ export const generalMethods = (Collection) => {
         });
       }
 
-      const updatedTest = await Collection.updateOne(
+      if (!schema.partial().safeParse(body).success) {
+        return res.status(400).send({
+          status: "error",
+          message: "Invalid request",
+          error: schema.partial().safeParse(body).error.issues,
+        });
+      }
+
+      const updated = await Collection.updateOne(
         { _id: new ObjectId(id as string) },
         { $set: body }
       );
 
       return res.status(200).send({
         status: "ok",
-        message: `updated successfully!`,
-        data: updatedTest,
+        message: `Updated successfully!`,
+        data: updated,
       });
     } catch (error: any) {
       console.error("Server error", error);
@@ -124,20 +133,20 @@ export const generalMethods = (Collection) => {
         });
       }
 
-      const deletedTest = await Collection.deleteMany({
+      const deleted = await Collection.deleteMany({
         _id: { $in: id.map((id) => new ObjectId(id as string)) },
       });
 
-      if (!deletedTest) {
+      if (!deleted) {
         return res.status(404).send({
           status: "error",
-          message: `not found`,
+          message: `Not found`,
         });
       }
 
       return res.status(200).send({
         status: "ok",
-        message: `deleted successfully!`,
+        message: `Deleted successfully!`,
       });
     } catch (error: any) {
       console.error("Server error", error);

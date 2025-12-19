@@ -2,11 +2,11 @@ import { ObjectId } from "mongodb";
 export const generalMethods = (Collection) => {
     const getAll = async (req, res) => {
         try {
-            const result = await Collection.find({}).toArray();
+            const FoundAll = await Collection.find({}).toArray();
             return res.status(200).send({
                 status: "ok",
-                message: `found!`,
-                data: result,
+                message: `Found all!`,
+                data: FoundAll,
             });
         }
         catch (error) {
@@ -27,13 +27,13 @@ export const generalMethods = (Collection) => {
                     message: "ID is required",
                 });
             }
-            const result = await Collection.findOne({
+            const found = await Collection.findOne({
                 _id: new ObjectId(id),
             });
             return res.status(200).send({
                 status: "ok",
-                message: `found!`,
-                data: result,
+                message: `Found!`,
+                data: found,
             });
         }
         catch (error) {
@@ -45,25 +45,26 @@ export const generalMethods = (Collection) => {
             });
         }
     };
-    const create = async (req, res) => {
+    const create = async (req, res, schema) => {
         try {
             let body = req.body;
             if (!Array.isArray(body)) {
                 body = [body];
             }
             body.map((item) => {
-                if (!item.number || !item.string) {
+                if (!schema.safeParse(item).success) {
                     return res.status(400).send({
                         status: "error",
-                        message: `Name and description is required on all items`,
+                        message: "Invalid request",
+                        error: schema.safeParse(item).error.issues,
                     });
                 }
             });
-            const result = await Collection.insertMany(body);
+            const created = await Collection.insertMany(body);
             return res.status(200).send({
                 status: "ok",
-                message: `created successfully!`,
-                data: result,
+                message: `Created successfully!`,
+                data: created,
             });
         }
         catch (error) {
@@ -75,7 +76,7 @@ export const generalMethods = (Collection) => {
             });
         }
     };
-    const updateById = async (req, res) => {
+    const updateById = async (req, res, schema) => {
         try {
             const id = req.params.id;
             const body = req.body;
@@ -85,11 +86,18 @@ export const generalMethods = (Collection) => {
                     message: "ID is required",
                 });
             }
-            const updatedTest = await Collection.updateOne({ _id: new ObjectId(id) }, { $set: body });
+            if (!schema.partial().safeParse(body).success) {
+                return res.status(400).send({
+                    status: "error",
+                    message: "Invalid request",
+                    error: schema.partial().safeParse(body).error.issues,
+                });
+            }
+            const updated = await Collection.updateOne({ _id: new ObjectId(id) }, { $set: body });
             return res.status(200).send({
                 status: "ok",
-                message: `updated successfully!`,
-                data: updatedTest,
+                message: `Updated successfully!`,
+                data: updated,
             });
         }
         catch (error) {
@@ -110,18 +118,18 @@ export const generalMethods = (Collection) => {
                     message: "One type of id is required",
                 });
             }
-            const deletedTest = await Collection.deleteMany({
+            const deleted = await Collection.deleteMany({
                 _id: { $in: id.map((id) => new ObjectId(id)) },
             });
-            if (!deletedTest) {
+            if (!deleted) {
                 return res.status(404).send({
                     status: "error",
-                    message: `not found`,
+                    message: `Not found`,
                 });
             }
             return res.status(200).send({
                 status: "ok",
-                message: `deleted successfully!`,
+                message: `Deleted successfully!`,
             });
         }
         catch (error) {
