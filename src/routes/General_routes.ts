@@ -58,11 +58,11 @@ export const generalMethods = (Collection) => {
       }
 
       body.map((item) => {
-        if (!schema.strict().safeParse(item).success) {
+        if (!schema.strip().safeParse(item).success) {
           return res.status(400).send({
             status: "error",
             message: "Invalid request",
-            error: schema.strict().safeParse(item).error.issues,
+            error: schema.strip().safeParse(item).error.issues,
           });
         }
       });
@@ -95,11 +95,11 @@ export const generalMethods = (Collection) => {
         });
       }
 
-      if (!schema.partial().strict().safeParse(body).success) {
+      if (!schema.partial().strip().safeParse(body).success) {
         return res.status(400).send({
           status: "error",
           message: "Invalid request",
-          error: schema.partial().strict().safeParse(body).error.issues,
+          error: schema.partial().strip().safeParse(body).error.issues,
         });
       }
 
