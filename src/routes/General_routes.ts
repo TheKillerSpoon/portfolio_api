@@ -95,11 +95,11 @@ export const generalMethods = (Collection) => {
         });
       }
 
-      if (!schema.partial().strip().safeParse(body).success) {
+      if (!schema.partial().strict().safeParse(body).success) {
         return res.status(400).send({
           status: "error",
           message: "Invalid request",
-          error: schema.partial().strip().safeParse(body).error.issues,
+          error: schema.partial().strict().safeParse(body).error.issues,
         });
       }
 
