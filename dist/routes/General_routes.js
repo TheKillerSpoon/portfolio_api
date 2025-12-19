@@ -52,11 +52,11 @@ export const generalMethods = (Collection) => {
                 body = [body];
             }
             body.map((item) => {
-                if (!schema.safeParse(item).success) {
+                if (!schema.strict().safeParse(item).success) {
                     return res.status(400).send({
                         status: "error",
                         message: "Invalid request",
-                        error: schema.safeParse(item).error.issues,
+                        error: schema.strict().safeParse(item).error.issues,
                     });
                 }
             });
@@ -86,11 +86,11 @@ export const generalMethods = (Collection) => {
                     message: "ID is required",
                 });
             }
-            if (!schema.partial().safeParse(body).success) {
+            if (!schema.partial().strict().safeParse(body).success) {
                 return res.status(400).send({
                     status: "error",
                     message: "Invalid request",
-                    error: schema.partial().safeParse(body).error.issues,
+                    error: schema.partial().strict().safeParse(body).error.issues,
                 });
             }
             const updated = await Collection.updateOne({ _id: new ObjectId(id) }, { $set: body });
