@@ -57,15 +57,17 @@ export const generalMethods = (Collection) => {
         body = [body];
       }
 
-      body.map((item) => {
-        if (!schema.safeParse(item).success) {
+      for (const item of body) {
+        const result = schema.safeParse(item);
+
+        if (!result.success) {
           return res.status(400).send({
             status: "error",
             message: "Invalid request",
-            error: schema.safeParse(item).error.issues,
+            error: result.error.issues,
           });
         }
-      });
+      }
 
       const created = await Collection.insertMany(body);
 
@@ -95,11 +97,13 @@ export const generalMethods = (Collection) => {
         });
       }
 
-      if (!schema.partial().safeParse(body).success) {
+      const result = schema.partial().safeParse(body);
+
+      if (!result.success) {
         return res.status(400).send({
           status: "error",
           message: "Invalid request",
-          error: schema.partial().safeParse(body).error.issues,
+          error: result.error.issues,
         });
       }
 

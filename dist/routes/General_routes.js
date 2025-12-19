@@ -51,15 +51,16 @@ export const generalMethods = (Collection) => {
             if (!Array.isArray(body)) {
                 body = [body];
             }
-            body.map((item) => {
-                if (!schema.safeParse(item).success) {
+            for (const item of body) {
+                const result = schema.safeParse(item);
+                if (!result.success) {
                     return res.status(400).send({
                         status: "error",
                         message: "Invalid request",
-                        error: schema.safeParse(item).error.issues,
+                        error: result.error.issues,
                     });
                 }
-            });
+            }
             const created = await Collection.insertMany(body);
             return res.status(200).send({
                 status: "ok",
@@ -86,11 +87,12 @@ export const generalMethods = (Collection) => {
                     message: "ID is required",
                 });
             }
-            if (!schema.partial().safeParse(body).success) {
+            const result = schema.partial().safeParse(body);
+            if (!result.success) {
                 return res.status(400).send({
                     status: "error",
                     message: "Invalid request",
-                    error: schema.partial().safeParse(body).error.issues,
+                    error: result.error.issues,
                 });
             }
             const updated = await Collection.updateOne({ _id: new ObjectId(id) }, { $set: body });
