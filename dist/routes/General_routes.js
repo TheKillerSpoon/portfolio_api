@@ -52,11 +52,11 @@ export const generalMethods = (Collection) => {
                 body = [body];
             }
             body.map((item) => {
-                if (!schema.strip().safeParse(item).success) {
+                if (!schema.strict().safeParse(item).success) {
                     return res.status(400).send({
                         status: "error",
                         message: "Invalid request",
-                        error: schema.strip().safeParse(item).error.issues,
+                        error: schema.strict().safeParse(item).error.issues,
                     });
                 }
             });
