@@ -1,164 +1,51 @@
 import express from "express";
-import Language from "../models/language.model.js";
+import { generalMethods } from "./General_routes.js";
+import { getDatabase, collectionExists } from "../utils/dbConnect.js";
+import { z } from "zod";
+
+// Define schema for test validation
+const schema = z.object({
+  name: z.string(),
+  description: z.string(),
+  timeframe: z.string().optional(),
+});
+
+// Initialize database and collection
+const database = getDatabase();
+collectionExists("language");
+const Collection = database.collection("language");
+
+// Destructure general methods for the test collection
+const { getAll, getById, create, updateById, deleteById } = generalMethods(
+  Collection,
+  schema
+);
 
 const languageRoute = express.Router();
 
-// get all languages
+// get all tests
 languageRoute.get("/languages", async (req, res) => {
-  try {
-    const result = await Language.find({});
-
-    console.log(
-      "Languages found:",
-      result.map((x) => x.name)
-    );
-
-    return res.status(200).send({
-      status: "ok",
-      message: "Languages found!",
-      data: result,
-    });
-  } catch (error: any) {
-    console.error("Server error", error);
-    return res.status(500).send({
-      status: "error",
-      message: "Server error",
-      error: error.message,
-    });
-  }
+  await getAll(req, res);
 });
 
-// get language by id
+// get test by id
 languageRoute.get("/language/:id", async (req, res) => {
-  try {
-    const id = req.query.id;
-
-    if (!id) {
-      return res.status(400).send({
-        status: "error",
-        message: "Language ID is required",
-      });
-    }
-
-    const language = await Language.findById(id);
-
-    if (!language) {
-      return res.status(404).send("Language not found");
-    }
-
-    res.status(200).send({
-      status: "ok",
-      message: "Language found!",
-      data: language,
-    });
-  } catch (error: any) {
-    console.error("Server-error", error);
-    res.status(500).send("Server-error");
-  }
+  await getById(req, res);
 });
 
-// create a new language
+// create new test
 languageRoute.post("/language", async (req, res) => {
-  try {
-    let body = req.body;
-
-    if (!body.name || !body.description) {
-      return res.status(400).send({
-        status: "error",
-        message: `Name and description is required`,
-      });
-    }
-
-    const newLanguage = await Language.create(body);
-
-    return res.status(201).send({
-      status: "ok",
-      message: "Language created successfully!",
-      data: newLanguage,
-    });
-  } catch (error: any) {
-    console.error("Something went wrong:", error);
-    return res.status(500).send({
-      status: "error",
-      message: "Something went wrong",
-      error: error.message,
-    });
-  }
+  await create(req, res);
 });
 
-// update a language by id
-languageRoute.put("/language/:id", async (req, res) => {
-  try {
-    const id = req.query.id;
-    const body = req.body;
-
-    if (!id) {
-      return res.status(400).send({
-        status: "error",
-        message: "ID is required",
-      });
-    }
-
-    const updatedLanguage = await Language.findByIdAndUpdate(id, body, {
-      new: true,
-      runValidators: true,
-    });
-
-    if (!updatedLanguage) {
-      return res.status(404).send({
-        status: "error",
-        message: "Language not found",
-      });
-    }
-
-    return res.status(200).send({
-      status: "ok",
-      message: "Language updated successfully!",
-      data: updatedLanguage,
-    });
-  } catch (error: any) {
-    console.error("Server error", error);
-    return res.status(500).send({
-      status: "error",
-      message: "Server error",
-      error: error.message,
-    });
-  }
+// update test by id
+languageRoute.patch("/language/:id", async (req, res) => {
+  await updateById(req, res);
 });
 
-// delete a language by id
-languageRoute.delete("/language/:id", async (req, res) => {
-  try {
-    const id = req.query.id;
-
-    if (!id) {
-      return res.status(400).send({
-        status: "error",
-        message: "ID is required",
-      });
-    }
-
-    const deletedLanguage = await Language.findByIdAndDelete(id);
-
-    if (!deletedLanguage) {
-      return res.status(404).send({
-        status: "error",
-        message: "Language not found",
-      });
-    }
-
-    return res.status(200).send({
-      status: "ok",
-      message: "Language deleted successfully!",
-    });
-  } catch (error: any) {
-    console.error("Server error", error);
-    return res.status(500).send({
-      status: "error",
-      message: "Server error",
-      error: error.message,
-    });
-  }
+// delete one or many test by id
+languageRoute.delete("/language", async (req, res) => {
+  await deleteById(req, res);
 });
 
 export default languageRoute;
