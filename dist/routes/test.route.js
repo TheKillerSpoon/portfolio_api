@@ -3,12 +3,14 @@ import { generalMethods } from "./General_routes.js";
 import { getDatabase, collectionExists } from "../utils/dbConnect.js";
 import { z } from "zod";
 // Define schema for test validation
-const testSchema = z.object({
+const testSchema = z
+    .object({
     number: z.number(),
     string: z.string(),
     test: z.string(),
     array: z.array(z.number()).optional(),
-});
+})
+    .strict();
 // Initialize database and collection
 const database = getDatabase();
 collectionExists("test");
