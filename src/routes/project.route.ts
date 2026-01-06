@@ -12,7 +12,7 @@ const schema = z.object({
   live: z.string().optional(),
   git: z.string(),
   languages: z.array(z.string()),
-  showcase: z.boolean().prefault(false),
+  showcase: z.coerce.boolean().prefault(false),
 });
 
 // Initialize database and collection

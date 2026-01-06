@@ -58,16 +58,16 @@ export const generalMethods = (Collection, schema) => {
         body = [body];
       }
 
-      for (const item of body) {
+      const parsedBody = body.map((item) =>
         schema
           .strict()
           .refine((obj) => Object.keys(obj).length > 0, {
             message: "At least one field must be provided",
           })
-          .parse(item);
-      }
+          .parse(item)
+      );
 
-      const created = await Collection.insertMany(body);
+      const created = await Collection.insertMany(parsedBody);
 
       return res.status(200).send({
         status: "ok",
@@ -102,17 +102,18 @@ export const generalMethods = (Collection, schema) => {
         });
       }
 
-      schema
-        .partial()
-        .strict()
-        .refine((obj) => Object.keys(obj).length > 0, {
-          message: "At least one field must be provided",
-        })
-        .parse(body);
+      const parsedBody = body.map((item) =>
+        schema
+          .strict()
+          .refine((obj) => Object.keys(obj).length > 0, {
+            message: "At least one field must be provided",
+          })
+          .parse(item)
+      );
 
       const updated = await Collection.updateOne(
         { _id: new ObjectId(id as string) },
-        { $set: body }
+        { $set: parsedBody }
       );
 
       return res.status(200).send({
