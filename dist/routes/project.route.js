@@ -6,14 +6,13 @@ import multer from "multer";
 import { ObjectId } from "mongodb";
 // Define schema for test validation
 const schema = z.object({
-    image: z.string(),
+    image: z.string().optional(),
     title: z.string(),
     description: z.string(),
     live: z.string().optional(),
     git: z.string(),
     languages: z.array(z.instanceof(ObjectId)),
     showcase: z.boolean().optional().default(false),
-    timeframe: z.string().optional(),
 });
 // Initialize database and collection
 const database = getDatabase();
