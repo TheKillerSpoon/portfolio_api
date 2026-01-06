@@ -1,4 +1,5 @@
 import { ObjectId } from "mongodb";
+import { z } from "zod";
 export const generalMethods = (Collection, schema) => {
     const getAll = async (req, res) => {
         try {
@@ -52,19 +53,12 @@ export const generalMethods = (Collection, schema) => {
                 body = [body];
             }
             for (const item of body) {
-                const result = schema
+                schema
                     .strict()
                     .refine((obj) => Object.keys(obj).length > 0, {
                     message: "At least one field must be provided",
                 })
                     .parse(item);
-                if (!result.success) {
-                    return res.status(400).send({
-                        status: "error",
-                        message: "Invalid request",
-                        error: result.error.issues,
-                    });
-                }
             }
             const created = await Collection.insertMany(body);
             return res.status(200).send({
@@ -75,6 +69,13 @@ export const generalMethods = (Collection, schema) => {
         }
         catch (error) {
             console.error("Server error", error);
+            if (error instanceof z.ZodError) {
+                return res.status(400).send({
+                    status: "error",
+                    message: "Invalid request",
+                    error: error.issues,
+                });
+            }
             return res.status(500).send({
                 status: "error",
                 message: "Server error",
