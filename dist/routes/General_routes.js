@@ -57,7 +57,7 @@ export const generalMethods = (Collection, schema) => {
                     .refine((obj) => Object.keys(obj).length > 0, {
                     message: "At least one field must be provided",
                 })
-                    .safeParse(item);
+                    .parse(item);
                 if (!result.success) {
                     return res.status(400).send({
                         status: "error",
@@ -98,7 +98,7 @@ export const generalMethods = (Collection, schema) => {
                 .refine((obj) => Object.keys(obj).length > 0, {
                 message: "At least one field must be provided",
             })
-                .safeParse(body);
+                .parse(body);
             if (!result.success) {
                 return res.status(400).send({
                     status: "error",
