@@ -5,9 +5,9 @@ import { z } from "zod";
 // Define schema for techstack validation
 const schema = z.object({
     name: z.string(),
-    description: z.string(),
+    description: z.string().optional(),
     catagory: z.string(),
-    timeframe: z.string().optional(),
+    strength: z.number().min(1).max(5).optional(),
 });
 // Initialize database and collection
 const database = getDatabase();
