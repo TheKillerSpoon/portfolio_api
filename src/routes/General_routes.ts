@@ -102,21 +102,13 @@ export const generalMethods = (Collection, schema) => {
         });
       }
 
-      const result = schema
+      schema
         .partial()
         .strict()
         .refine((obj) => Object.keys(obj).length > 0, {
           message: "At least one field must be provided",
         })
         .parse(body);
-
-      if (!result.success) {
-        return res.status(400).send({
-          status: "error",
-          message: "Invalid request",
-          error: result.error.issues,
-        });
-      }
 
       const updated = await Collection.updateOne(
         { _id: new ObjectId(id as string) },
@@ -130,6 +122,13 @@ export const generalMethods = (Collection, schema) => {
       });
     } catch (error: any) {
       console.error("Server error", error);
+      if (error instanceof z.ZodError) {
+        return res.status(400).send({
+          status: "error",
+          message: "Invalid request",
+          error: error.issues,
+        });
+      }
       return res.status(500).send({
         status: "error",
         message: "Server error",

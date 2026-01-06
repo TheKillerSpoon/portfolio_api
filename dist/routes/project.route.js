@@ -11,7 +11,7 @@ const schema = z.object({
     live: z.string().optional(),
     git: z.string(),
     languages: z.array(z.string()),
-    showcase: z.boolean().default(false),
+    showcase: z.boolean().prefault(false),
 });
 // Initialize database and collection
 const database = getDatabase();
