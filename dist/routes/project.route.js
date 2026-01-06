@@ -3,7 +3,6 @@ import { generalMethods } from "./General_routes.js";
 import { getDatabase, collectionExists } from "../utils/dbConnect.js";
 import { z } from "zod";
 import multer from "multer";
-import { ObjectId } from "mongodb";
 // Define schema for test validation
 const schema = z.object({
     image: z.string().optional(),
@@ -11,7 +10,7 @@ const schema = z.object({
     description: z.string(),
     live: z.string().optional(),
     git: z.string(),
-    languages: z.array(z.instanceof(ObjectId)),
+    languages: z.array(z.string()),
     showcase: z.boolean().optional().default(false),
 });
 // Initialize database and collection

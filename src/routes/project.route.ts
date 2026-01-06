@@ -12,7 +12,7 @@ const schema = z.object({
   description: z.string(),
   live: z.string().optional(),
   git: z.string(),
-  languages: z.array(z.instanceof(ObjectId)),
+  languages: z.array(z.string()),
   showcase: z.boolean().optional().default(false),
 });
 
