@@ -3,7 +3,6 @@ import { generalMethods } from "./General_routes.js";
 import { getDatabase, collectionExists } from "../utils/dbConnect.js";
 import { z } from "zod";
 import multer from "multer";
-import { ObjectId } from "mongodb";
 
 // Define schema for test validation
 const schema = z.object({
