@@ -2,6 +2,7 @@ import express from "express";
 import { generalMethods } from "./General_routes.js";
 import { getDatabase, collectionExists } from "../utils/dbConnect.js";
 import { z } from "zod";
+import { auth } from "../middelware/auth.middelware.js";
 
 // Define schema for techstack validation
 const schema = z.object({
@@ -35,17 +36,17 @@ techstackRoute.get("/techstack/:id", async (req, res) => {
 });
 
 // create new techstack
-techstackRoute.post("/techstack", async (req, res) => {
+techstackRoute.post("/techstack", auth, async (req, res) => {
   await create(req, res);
 });
 
 // update techstack by id
-techstackRoute.patch("/techstack/:id", async (req, res) => {
+techstackRoute.patch("/techstack/:id", auth, async (req, res) => {
   await updateById(req, res);
 });
 
 // delete one or many techstack by id
-techstackRoute.delete("/techstack", async (req, res) => {
+techstackRoute.delete("/techstack", auth, async (req, res) => {
   await deleteById(req, res);
 });
 

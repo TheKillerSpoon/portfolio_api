@@ -3,6 +3,7 @@ import { generalMethods } from "./General_routes.js";
 import { getDatabase, collectionExists } from "../utils/dbConnect.js";
 import { z } from "zod";
 import multer from "multer";
+import { auth } from "../middelware/auth.middelware.js";
 
 // Define schema for test validation
 const schema = z.object({
@@ -50,17 +51,27 @@ projectRoute.get("/project/:id", async (req, res) => {
 });
 
 // create new test
-projectRoute.post("/project", upload.single("image"), async (req, res) => {
-  await create(req, res);
-});
+projectRoute.post(
+  "/project",
+  auth,
+  upload.single("image"),
+  async (req, res) => {
+    await create(req, res);
+  }
+);
 
 // update test by id
-projectRoute.patch("/project/:id", upload.single("image"), async (req, res) => {
-  await updateById(req, res);
-});
+projectRoute.patch(
+  "/project/:id",
+  auth,
+  upload.single("image"),
+  async (req, res) => {
+    await updateById(req, res);
+  }
+);
 
 // delete one or many test by id
-projectRoute.delete("/project", async (req, res) => {
+projectRoute.delete("/project", auth, async (req, res) => {
   await deleteById(req, res);
 });
 

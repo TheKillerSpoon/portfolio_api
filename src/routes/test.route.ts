@@ -2,6 +2,7 @@ import express from "express";
 import { generalMethods } from "./General_routes.js";
 import { getDatabase, collectionExists } from "../utils/dbConnect.js";
 import { z } from "zod";
+import { auth } from "../middelware/auth.middelware.js";
 
 // Define schema for test validation
 const schema = z.object({
@@ -35,17 +36,17 @@ testRoute.get("/test/:id", async (req, res) => {
 });
 
 // create new test
-testRoute.post("/test", async (req, res) => {
+testRoute.post("/test", auth, async (req, res) => {
   await create(req, res);
 });
 
 // update test by id
-testRoute.patch("/test/:id", async (req, res) => {
+testRoute.patch("/test/:id", auth, async (req, res) => {
   await updateById(req, res);
 });
 
 // delete one or many test by id
-testRoute.delete("/test", async (req, res) => {
+testRoute.delete("/test", auth, async (req, res) => {
   await deleteById(req, res);
 });
 
