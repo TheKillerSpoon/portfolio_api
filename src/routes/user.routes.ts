@@ -25,27 +25,27 @@ const { getAll, getById, create, updateById, deleteById } = generalMethods(
 const userRoute = express.Router();
 
 // get all techstacks
-userRoute.get("/techstacks", async (req, res) => {
+userRoute.get("/users", async (req, res) => {
   await getAll(req, res);
 });
 
 // get techstack by id
-userRoute.get("/techstack/:id", async (req, res) => {
+userRoute.get("/user/:id", async (req, res) => {
   await getById(req, res);
 });
 
 // create new techstack
-userRoute.post("/techstack", async (req, res) => {
+userRoute.post("/user", async (req, res) => {
   await create(req, res);
 });
 
 // update techstack by id
-userRoute.patch("/techstack/:id", auth, async (req, res) => {
+userRoute.patch("/user/:id", auth, async (req, res) => {
   await updateById(req, res);
 });
 
 // delete one or many techstack by id
-userRoute.delete("/techstack", auth, async (req, res) => {
+userRoute.delete("/user", auth, async (req, res) => {
   await deleteById(req, res);
 });
 
