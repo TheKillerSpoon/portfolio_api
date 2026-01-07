@@ -26,12 +26,12 @@ const { getAll, getById, updateById, deleteById } = generalMethods(
 const userRoute = express.Router();
 
 // get all techstacks
-userRoute.get("/users", async (req, res) => {
+userRoute.get("/users", auth, async (req, res) => {
   await getAll(req, res);
 });
 
 // get techstack by id
-userRoute.get("/user/:id", async (req, res) => {
+userRoute.get("/user/:id", auth, async (req, res) => {
   await getById(req, res);
 });
 
