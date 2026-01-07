@@ -1,10 +1,10 @@
 import { ObjectId } from "mongodb";
 import { z } from "zod";
 
-export const generalMethods = (Collection, schema) => {
+export const generalMethods = (collection, schema) => {
   const getAll = async (req, res) => {
     try {
-      const FoundAll = await Collection.find({}).toArray();
+      const FoundAll = await collection.find({}).toArray();
 
       return res.status(200).send({
         status: "ok",
@@ -32,7 +32,7 @@ export const generalMethods = (Collection, schema) => {
         });
       }
 
-      const found = await Collection.findOne({
+      const found = await collection.findOne({
         _id: new ObjectId(id as string),
       });
 
@@ -67,7 +67,7 @@ export const generalMethods = (Collection, schema) => {
           .parse(item)
       );
 
-      const created = await Collection.insertMany(parsedBody);
+      const created = await collection.insertMany(parsedBody);
 
       return res.status(200).send({
         status: "ok",
@@ -111,7 +111,7 @@ export const generalMethods = (Collection, schema) => {
           .parse(item)
       );
 
-      const updated = await Collection.updateOne(
+      const updated = await collection.updateOne(
         { _id: new ObjectId(id as string) },
         { $set: parsedBody }
       );
@@ -148,7 +148,7 @@ export const generalMethods = (Collection, schema) => {
         });
       }
 
-      const deleted = await Collection.deleteMany({
+      const deleted = await collection.deleteMany({
         _id: { $in: id.map((id) => new ObjectId(id as string)) },
       });
 

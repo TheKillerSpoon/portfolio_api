@@ -1,15 +1,7 @@
 import express from "express";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { z } from "zod";
-import { getDatabase, collectionExists } from "../utils/dbConnect.js";
-
-// Define schema for test validation
-// const schema = z.object({
-//   username: z.string(),
-//   hashedPassword: z.string(),
-//   role: z.string().default("user"),
-// });
+import { getDatabase } from "../utils/dbConnect.js";
 
 // Initialize database and collection
 const database = getDatabase();

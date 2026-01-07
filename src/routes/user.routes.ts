@@ -3,6 +3,7 @@ import { generalMethods } from "./General_routes.js";
 import { getDatabase, collectionExists } from "../utils/dbConnect.js";
 import { z } from "zod";
 import { auth } from "../middelware/auth.middelware.js";
+import bcryptjs from "bcryptjs";
 
 // Define schema for techstack validation
 const schema = z.object({
@@ -14,11 +15,11 @@ const schema = z.object({
 // Initialize database and collection
 const database = getDatabase();
 collectionExists("user");
-const Collection = database.collection("user");
+const collection = database.collection("user");
 
 // Destructure general methods for the techstack collection
-const { getAll, getById, create, updateById, deleteById } = generalMethods(
-  Collection,
+const { getAll, getById, updateById, deleteById } = generalMethods(
+  collection,
   schema
 );
 
@@ -36,7 +37,42 @@ userRoute.get("/user/:id", async (req, res) => {
 
 // create new techstack
 userRoute.post("/user", async (req, res) => {
-  await create(req, res);
+  try {
+    let { username, password } = req.body;
+
+    const hashedPassword = await bcryptjs.hash(password, 10);
+
+    const user = { username, hashedPassword };
+
+    const parsedUser = schema
+      .strict()
+      .refine((obj) => Object.keys(obj).length > 0, {
+        message: "At least one field must be provided",
+      })
+      .parse(user);
+
+    const created = await collection.insertOne(parsedUser);
+
+    return res.status(200).send({
+      status: "ok",
+      message: `Created successfully!`,
+      data: created,
+    });
+  } catch (error: any) {
+    console.error("Server error", error);
+    if (error instanceof z.ZodError) {
+      return res.status(400).send({
+        status: "error",
+        message: "Invalid request",
+        error: error.issues,
+      });
+    }
+    return res.status(500).send({
+      status: "error",
+      message: "Server error",
+      error: error.message,
+    });
+  }
 });
 
 // update techstack by id
