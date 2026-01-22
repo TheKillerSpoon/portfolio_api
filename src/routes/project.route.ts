@@ -8,7 +8,7 @@ import { auth } from "../middelware/auth.middelware.js";
 // Define schema for test validation
 const schema = z.object({
   image: z.string().optional(),
-  title: z.string(),
+  name: z.string(),
   description: z.string(),
   live: z.string().optional(),
   git: z.string(),
@@ -24,7 +24,7 @@ const Collection = database.collection("project");
 // Destructure general methods for the test collection
 const { getAll, getById, create, updateById, deleteById } = generalMethods(
   Collection,
-  schema
+  schema,
 );
 
 const storage = multer.diskStorage({
@@ -57,7 +57,7 @@ projectRoute.post(
   upload.single("image"),
   async (req, res) => {
     await create(req, res);
-  }
+  },
 );
 
 // update test by id
@@ -67,7 +67,7 @@ projectRoute.patch(
   upload.single("image"),
   async (req, res) => {
     await updateById(req, res);
-  }
+  },
 );
 
 // delete one or many test by id

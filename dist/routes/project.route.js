@@ -7,7 +7,7 @@ import { auth } from "../middelware/auth.middelware.js";
 // Define schema for test validation
 const schema = z.object({
     image: z.string().optional(),
-    title: z.string(),
+    name: z.string(),
     description: z.string(),
     live: z.string().optional(),
     git: z.string(),
