@@ -8,7 +8,7 @@ import { auth } from "../middelware/auth.middelware.js";
 const schema = z.object({
   name: z.string(),
   description: z.string().optional(),
-  catagory: z.string(),
+  category: z.string(),
   strength: z.number().min(1).max(5).optional(),
 });
 
