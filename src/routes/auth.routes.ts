@@ -21,7 +21,7 @@ authRoute.post("/auth/signin", async (req, res) => {
     if (!user) {
       return res.status(401).send({
         status: "error",
-        message: "Invalid email or password",
+        message: "Invalid username or password",
         data: null,
       });
     }
