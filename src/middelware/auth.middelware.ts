@@ -60,7 +60,7 @@ export const auth = (req, res, next) => {
     console.error("Invalid token:", err);
     return res.status(401).json({
       status: "error",
-      message: "Invalid token - please sign in again.",
+      message: "Invalid token - please sign in again: " + err.message,
     });
   }
 };
