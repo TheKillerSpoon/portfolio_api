@@ -102,26 +102,12 @@ export const generalMethods = (collection, schema) => {
         });
       }
 
-      console.log("Update request body:", body);
-
-      const test = schema
+      const parsedBody = schema
         .strict()
         .refine((obj) => Object.keys(obj).length > 0, {
           message: "At least one field must be provided",
         })
         .parse(body);
-
-      console.log("Validation result:", test);
-
-      const parsedBody = body.map((item) =>
-        schema
-          .strict()
-          .refine((obj) => Object.keys(obj).length > 0, {
-            message: "At least one field must be provided",
-          })
-          .parse(item),
-      );
-      console.log("Parsed body:", parsedBody);
 
       const updated = await collection.updateOne(
         { _id: new ObjectId(id as string) },
