@@ -146,9 +146,13 @@ export const generalMethods = (collection, schema) => {
         });
       }
 
+      console.log("Deleting with ID:", id);
+
       const deleted = await collection.deleteOne({
         _id: new ObjectId(id as string),
       });
+
+      console.log("Delete result:", deleted);
 
       if (!deleted) {
         return res.status(404).send({
