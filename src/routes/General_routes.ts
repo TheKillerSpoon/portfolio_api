@@ -146,8 +146,8 @@ export const generalMethods = (collection, schema) => {
         });
       }
 
-      const deleted = await collection.deleteMany({
-        _id: { $in: id.map((id) => new ObjectId(id as string)) },
+      const deleted = await collection.deleteOne({
+        _id: new ObjectId(id as string),
       });
 
       if (!deleted) {

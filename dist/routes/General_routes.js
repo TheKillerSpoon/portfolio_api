@@ -129,8 +129,8 @@ export const generalMethods = (collection, schema) => {
                     message: "One type of id is required",
                 });
             }
-            const deleted = await collection.deleteMany({
-                _id: { $in: id.map((id) => new ObjectId(id)) },
+            const deleted = await collection.deleteOne({
+                _id: new ObjectId(id),
             });
             if (!deleted) {
                 return res.status(404).send({
