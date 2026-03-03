@@ -64,7 +64,7 @@ export const generalMethods = (collection, schema) => {
           .refine((obj) => Object.keys(obj).length > 0, {
             message: "At least one field must be provided",
           })
-          .parse(item)
+          .parse(item),
       );
 
       const created = await collection.insertMany(parsedBody);
@@ -102,18 +102,30 @@ export const generalMethods = (collection, schema) => {
         });
       }
 
+      console.log("Update request body:", body);
+
+      const test = schema
+        .strict()
+        .refine((obj) => Object.keys(obj).length > 0, {
+          message: "At least one field must be provided",
+        })
+        .parse(body);
+
+      console.log("Validation result:", test);
+
       const parsedBody = body.map((item) =>
         schema
           .strict()
           .refine((obj) => Object.keys(obj).length > 0, {
             message: "At least one field must be provided",
           })
-          .parse(item)
+          .parse(item),
       );
+      console.log("Parsed body:", parsedBody);
 
       const updated = await collection.updateOne(
         { _id: new ObjectId(id as string) },
-        { $set: parsedBody }
+        { $set: parsedBody },
       );
 
       return res.status(200).send({
