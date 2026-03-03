@@ -20,7 +20,7 @@ const Collection = database.collection("techstack");
 // Destructure general methods for the techstack collection
 const { getAll, getById, create, updateById, deleteById } = generalMethods(
   Collection,
-  schema
+  schema,
 );
 
 const techstackRoute = express.Router();
@@ -46,7 +46,7 @@ techstackRoute.patch("/techstack/:id", auth, async (req, res) => {
 });
 
 // delete one or many techstack by id
-techstackRoute.delete("/techstack", auth, async (req, res) => {
+techstackRoute.delete("/techstack/:id", auth, async (req, res) => {
   await deleteById(req, res);
 });
 

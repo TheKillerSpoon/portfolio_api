@@ -20,7 +20,7 @@ const Collection = database.collection("test");
 // Destructure general methods for the test collection
 const { getAll, getById, create, updateById, deleteById } = generalMethods(
   Collection,
-  schema
+  schema,
 );
 
 const testRoute = express.Router();
@@ -46,7 +46,7 @@ testRoute.patch("/test/:id", auth, async (req, res) => {
 });
 
 // delete one or many test by id
-testRoute.delete("/test", auth, async (req, res) => {
+testRoute.delete("/test/:id", auth, async (req, res) => {
   await deleteById(req, res);
 });
 

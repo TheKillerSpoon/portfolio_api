@@ -71,7 +71,7 @@ projectRoute.patch(
 );
 
 // delete one or many test by id
-projectRoute.delete("/project", auth, async (req, res) => {
+projectRoute.delete("/project/:id", auth, async (req, res) => {
   await deleteById(req, res);
 });
 

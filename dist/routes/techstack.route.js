@@ -34,7 +34,7 @@ techstackRoute.patch("/techstack/:id", auth, async (req, res) => {
     await updateById(req, res);
 });
 // delete one or many techstack by id
-techstackRoute.delete("/techstack", auth, async (req, res) => {
+techstackRoute.delete("/techstack/:id", auth, async (req, res) => {
     await deleteById(req, res);
 });
 export default techstackRoute;

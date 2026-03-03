@@ -34,7 +34,7 @@ testRoute.patch("/test/:id", auth, async (req, res) => {
     await updateById(req, res);
 });
 // delete one or many test by id
-testRoute.delete("/test", auth, async (req, res) => {
+testRoute.delete("/test/:id", auth, async (req, res) => {
     await deleteById(req, res);
 });
 export default testRoute;

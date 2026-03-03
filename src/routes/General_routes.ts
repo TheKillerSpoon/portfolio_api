@@ -137,7 +137,7 @@ export const generalMethods = (collection, schema) => {
   };
   const deleteById = async (req, res) => {
     try {
-      const id = req.body.id;
+      const id = req.params.id;
 
       if (!id) {
         return res.status(400).send({
@@ -146,13 +146,9 @@ export const generalMethods = (collection, schema) => {
         });
       }
 
-      console.log("Deleting with ID:", id);
-
       const deleted = await collection.deleteOne({
         _id: new ObjectId(id as string),
       });
-
-      console.log("Delete result:", deleted);
 
       if (!deleted) {
         return res.status(404).send({

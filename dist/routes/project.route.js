@@ -47,7 +47,7 @@ projectRoute.patch("/project/:id", auth, upload.single("image"), async (req, res
     await updateById(req, res);
 });
 // delete one or many test by id
-projectRoute.delete("/project", auth, async (req, res) => {
+projectRoute.delete("/project/:id", auth, async (req, res) => {
     await deleteById(req, res);
 });
 export default projectRoute;

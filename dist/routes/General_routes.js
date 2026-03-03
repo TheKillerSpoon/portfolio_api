@@ -122,18 +122,16 @@ export const generalMethods = (collection, schema) => {
     };
     const deleteById = async (req, res) => {
         try {
-            const id = req.body.id;
+            const id = req.params.id;
             if (!id) {
                 return res.status(400).send({
                     status: "error",
                     message: "One type of id is required",
                 });
             }
-            console.log("Deleting with ID:", id);
             const deleted = await collection.deleteOne({
                 _id: new ObjectId(id),
             });
-            console.log("Delete result:", deleted);
             if (!deleted) {
                 return res.status(404).send({
                     status: "error",
